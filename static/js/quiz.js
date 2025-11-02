@@ -3,9 +3,9 @@ const homeScreen = document.getElementById("home-screen");
 const quizScreen = document.getElementById("quiz-screen");
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
-const resultEl = document.getElementById("result");
 const backBtn = document.getElementById("back-btn");
 
+// transition from home → quiz
 startBtn.addEventListener("click", () => {
   homeScreen.classList.add("fade-out");
   setTimeout(() => {
@@ -15,116 +15,141 @@ startBtn.addEventListener("click", () => {
   }, 800);
 });
 
+// quiz questions (same as before)
 const quizData = [
   {
+    name: "meat_dairy",
     question: "How often do you eat meat or dairy products?",
     options: [
-      "Every day",
-      "A few times per week",
-      "Rarely",
-      "Never (plant-based)",
-    ],
-    scores: [0, 1, 2, 3],
+      { value: "less_20", label: "Every day" },
+      { value: "20_50", label: "A few times per week" },
+      { value: "50_100", label: "Rarely" },
+      { value: "over_100", label: "Never (plant-based)" }
+    ]
   },
   {
+    name: "transport",
     question: "What is your main mode of daily transport?",
     options: [
-      "Car (petrol/diesel)",
-      "Car (electric/hybrid)",
-      "Public transport",
-      "Walking or cycling",
-      "Work/study from home",
-    ],
-    scores: [0, 1, 2, 3, 3],
+      { value: "car_petrol", label: "Car (petrol/diesel)" },
+      { value: "car_electric", label: "Car (electric/hybrid)" },
+      { value: "public", label: "Public transport" },
+      { value: "walk_cycle", label: "Walking or cycling" },
+      { value: "home", label: "Work/study from home" }
+    ]
   },
   {
+    name: "flights",
     question: "How many flights do you take per year (return trips)?",
-    options: ["None", "1–2 short flights", "1–2 long flights", "3+ flights"],
-    scores: [3, 2, 1, 0],
+    options: [
+      { value: "none", label: "None" },
+      { value: "short", label: "1–2 short flights" },
+      { value: "long", label: "1–2 long flights" },
+      { value: "3plus", label: "3+ flights" }
+    ]
   },
   {
+    name: "home_energy_source",
     question: "How is your home mainly powered or heated?",
     options: [
-      "Electricity from renewable sources",
-      "Electricity from mixed grid",
-      "Gas or oil heating",
-      "Unsure",
-    ],
-    scores: [3, 2, 1, 1],
+      { value: "renewable", label: "Electricity from renewable sources" },
+      { value: "mixed", label: "Electricity from mixed grid" },
+      { value: "gas_oil", label: "Gas or oil heating" },
+      { value: "unsure", label: "Unsure" }
+    ]
   },
   {
+    name: "home_efficiency",
     question: "How energy efficient is your home?",
     options: [
-      "Very efficient",
-      "Some improvements made",
-      "Not very efficient",
-      "Not sure",
-    ],
-    scores: [3, 2, 1, 1],
+      { value: "very", label: "Very efficient" },
+      { value: "some", label: "Some improvements made" },
+      { value: "not_very", label: "Not very efficient" },
+      { value: "not_sure", label: "Not sure" }
+    ]
   },
   {
+    name: "recycling",
     question: "How often do you recycle household waste?",
-    options: ["Always", "Often", "Sometimes", "Rarely"],
-    scores: [3, 2, 1, 0],
+    options: [
+      { value: "always", label: "Always" },
+      { value: "often", label: "Often" },
+      { value: "sometimes", label: "Sometimes" },
+      { value: "rarely", label: "Rarely" }
+    ]
   },
   {
+    name: "sustainable_shopping",
     question: "Do you regularly buy second-hand or sustainable products?",
-    options: ["Yes, most of the time", "Occasionally", "Rarely", "Never"],
-    scores: [3, 2, 1, 0],
+    options: [
+      { value: "most", label: "Yes, most of the time" },
+      { value: "occasionally", label: "Occasionally" },
+      { value: "rarely", label: "Rarely" },
+      { value: "never", label: "Never" }
+    ]
   },
   {
-    question: "How much do you think about your carbon footprint when making decisions?",
-    options: ["Always", "Sometimes", "Rarely", "Never"],
-    scores: [3, 2, 1, 0],
+    name: "carbon_awareness",
+    question: "How much do you think about your carbon footprint?",
+    options: [
+      { value: "high", label: "Always" },
+      { value: "medium", label: "Sometimes" },
+      { value: "low", label: "Rarely" }
+    ]
   },
   {
+    name: "device_usage",
     question: "How many hours per day do you use electronic devices?",
-    options: ["Less than 2 hours", "2–5 hours", "5–8 hours", "8+ hours"],
-    scores: [3, 2, 1, 0],
+    options: [
+      { value: "less_2", label: "Less than 2 hours" },
+      { value: "2_5", label: "2–5 hours" },
+      { value: "5_8", label: "5–8 hours" },
+      { value: "8plus", label: "8+ hours" }
+    ]
   },
   {
+    name: "food_waste",
     question: "How much food ends up being thrown away each week?",
-    options: ["Almost none", "A little", "Some", "A lot"],
-    scores: [3, 2, 1, 0],
-  },
+    options: [
+      { value: "almost_none", label: "Almost none" },
+      { value: "a_little", label: "A little" },
+      { value: "some", label: "Some" },
+      { value: "a_lot", label: "A lot" }
+    ]
+  }
 ];
 
 let currentQuestion = 0;
-let answers = Array(quizData.length).fill(null);
+let answers = {};
 
 function loadQuestion() {
-  resultEl.textContent = "";
   const current = quizData[currentQuestion];
   questionEl.textContent = current.question;
   optionsEl.innerHTML = "";
 
-  current.options.forEach((opt, i) => {
+  current.options.forEach(opt => {
     const btn = document.createElement("button");
-    btn.textContent = opt;
+    btn.textContent = opt.label;
     btn.classList.add("option");
 
-    if (answers[currentQuestion] === i) {
-      btn.style.background = "#c8f7c5";
-    }
+    btn.addEventListener("click", () => {
+      answers[current.name] = opt.value;
+      nextQuestion();
+    });
 
-    btn.addEventListener("click", () => selectOption(i));
     optionsEl.appendChild(btn);
   });
 
   backBtn.style.display = currentQuestion > 0 ? "inline-block" : "none";
 }
 
-function selectOption(index) {
-  answers[currentQuestion] = index;
-
-  setTimeout(() => {
-    if (currentQuestion < quizData.length - 1) {
-      currentQuestion++;
-      loadQuestion();
-    } else {
-      showResult();
-    }
-  }, 600);
+function nextQuestion() {
+  if (currentQuestion < quizData.length - 1) {
+    currentQuestion++;
+    loadQuestion();
+  } else {
+    submitQuiz();
+  }
 }
 
 backBtn.addEventListener("click", () => {
@@ -134,29 +159,20 @@ backBtn.addEventListener("click", () => {
   }
 });
 
-function calculateScore() {
-  return answers.reduce((total, ans, i) => {
-    if (ans !== null) total += quizData[i].scores[ans];
-    return total;
-  }, 0);
-}
+function submitQuiz() {
+  // create a form dynamically to send POST request
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = "/calculate";
 
-function showResult() {
-  questionEl.textContent = "";
-  optionsEl.innerHTML = "";
-  backBtn.style.display = "none";
+  for (const [key, value] of Object.entries(answers)) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = key;
+    input.value = value;
+    form.appendChild(input);
+  }
 
-  const score = calculateScore();
-  const maxScore = quizData.length * 3;
-  const percent = Math.round((score / maxScore) * 100);
-
-  let message = "";
-  if (percent >= 75) message = "🌿 Excellent! You're living sustainably!";
-  else if (percent >= 50) message = "🌱 Not bad! There's room for greener choices.";
-  else message = "🔥 Try making a few small eco-friendly changes.";
-
-  resultEl.innerHTML = `
-    <p>Your Sustainability Score: <b>${percent}%</b></p>
-    <p>${message}</p>
-  `;
+  document.body.appendChild(form);
+  form.submit();
 }
