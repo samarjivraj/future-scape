@@ -73,31 +73,43 @@ def map_quiz_answers(form_data):
             'a_lot': 'A lot of food waste'
         }
     }
-    
-    # Reverse mapping for display
+
     reverse_mapping = {}
     for field, options in mapping.items():
         for key, value in options.items():
             reverse_mapping[value] = key
     return reverse_mapping
 
-# --- routes ---
+# --- FRONTEND ROUTES ---
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/quiz')
+def quiz():
+    return render_template('quiz.html')
+
+@app.route('/results')
+def results():
+    # This route can optionally redirect or display a default page
+    return render_template('results.html', carbon_kg=0, story="Your results will appear here.", tips=[])
+
+# --- CALCULATE ROUTE ---
 @app.route('/calculate', methods=['POST'])
 def calculate():
     try:
-        # --- 1. get form data ---
+        # --- form data ---
         form_fields = [
             'meat_dairy', 'transport', 'flights', 'home_energy_source',
             'home_efficiency', 'recycling', 'sustainable_shopping',
             'carbon_awareness', 'device_usage', 'food_waste'
         ]
         form_data = {field: request.form.get(field) for field in form_fields}
-
         missing_fields = [k for k, v in form_data.items() if not v]
         if missing_fields:
             return f"<h2>Missing fields: {', '.join(missing_fields)}</h2><a href='/quiz'>← Back to Quiz</a>", 400
 
-        # --- 2. calculate total carbon footprint ---
+        # --- calculate carbon footprint (same as your current code) ---
         total_carbon_kg = 0
         # Meat & dairy
         meat_co2 = {"less_20": 1800, "20_50": 2400, "50_100": 3200, "over_100": 4000}
@@ -131,10 +143,8 @@ def calculate():
 
         carbon_display = round(total_carbon_kg, 1)
 
-        # --- 3. build lifestyle summary ---
+        # --- lifestyle summary ---
         lifestyle_context = []
-
-        # Map behavior descriptions
         if form_data['meat_dairy'] == "less_20":
             lifestyle_context.append("follows a mostly plant-based diet")
         elif form_data['meat_dairy'] == "over_100":
@@ -166,7 +176,7 @@ def calculate():
 
         behavior_summary = "; ".join(lifestyle_context) if lifestyle_context else "lives an average modern lifestyle"
 
-        # --- 4. AI prompt ---
+        # --- AI prompt ---
         prompt = f"""
         You are a climate storyteller in the year 2050. Imagine a world where everyone lived like this person:
 
@@ -176,12 +186,10 @@ def calculate():
         Then end with 2 bullet-pointed actionable tips for sustainability today.
         """
 
-        # --- 5. generate story ---
+        # --- generate story ---
         story = ""
         tips = []
-
         if not OPENAI_API_KEY:
-            # fallback story
             story = f"In 2050, the world shaped by lifestyles like yours presents a mixed picture. {behavior_summary}."
             tips = [
                 "Transition to renewable energy sources for home and transport",
@@ -196,7 +204,6 @@ def calculate():
                     temperature=0.8
                 )
                 story_full = chat_completion.choices[0].message.content.strip()
-                # Split tips from story
                 if "•" in story_full:
                     parts = story_full.split("•")
                     story = parts[0].strip()
@@ -224,3 +231,6 @@ def calculate():
 @app.route('/test')
 def test():
     return "Flask app is working!"
+
+if __name__ == "__main__":
+    app.run(debug=True)
