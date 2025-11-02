@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
+
+body {
+  font-family: 'Comfortaa', cursive;
+  background: linear-gradient(135deg, #fff59d, #fff176); 
+  color: #4e342e; 
+  margin: 0;
+  padding: 0;
+}
+
+/*  Quiz Container  */
+.quiz-container {
+  width: 70%;
+  max-width: 800px;
+  margin: 3rem auto;
+  background: linear-gradient(145deg, #fffde7, #fff9c4); 
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); 
+  border: 2px solid #fff9a5; 
+  padding: 2.5rem 3rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.quiz-container:hover {
+  transform: translateY(-2px); 
+}
+
+/*  Titles  */
+h1 {
+  text-align: center;
+  color: #6d4c41; 
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+  color: #8d6e63; 
+}
+
+/*  Question blocks  */
+.question {
+  margin-bottom: 2.8rem;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(145deg, #fff9c4, #fff59d); 
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+  border: 2px solid #fff59d; 
+  transition: transform 0.2s ease-in-out;
+}
+
+.question:hover {
+  transform: translateY(-2px); 
+}
+
+/*  Question label  */
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+  color: #5d4037; 
+}
+
+/* Options styling  */
+.options label {
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  color: #4e342e; 
+}
+
+.options input[type="radio"] {
+  margin-right: 0.6rem;
+  cursor: pointer;
+}
+
+/* Submit button */
+.submit-btn {
+  display: block;
+  margin: 2.5rem auto;
+  background: linear-gradient(145deg, #ffb74d, #ffc107); 
+  color: #4e342e; 
+  padding: 14px 30px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(145deg, #ffa726, #ffb74d); 
+  transform: scale(1.05);
+}
