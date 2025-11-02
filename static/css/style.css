@@ -389,3 +389,214 @@ body::before {
     padding: 14px 18px;
   }
 }
+
+/* ===== BODY & BACKGROUND ===== */
+body {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at center, #ffde59 0%, #ff914d 100%);
+  color: #003344;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* ===== RESULTS SCREEN ===== */
+#results-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px 80px 20px;
+  min-height: 100vh;
+}
+
+/* ===== HEADERS ===== */
+.headers-container {
+  margin-bottom: 40px;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #4b0082;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #4b0082;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ===== RESULTS BOX ===== */
+.results-box {
+  background: #ffffffcc;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  margin-bottom: 40px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.results-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #2980b9;
+}
+
+.carbon-number {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #27ae60;
+  margin: 0.5rem 0;
+}
+
+.impact-text {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #555;
+}
+
+/* ===== STORY BOX ===== */
+.story-box {
+  background: #ffffffcc;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  margin-bottom: 40px;
+  max-width: 700px;
+  width: 100%;
+}
+
+.story-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #2980b9;
+}
+
+.story-content p {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* ===== TIPS BOX ===== */
+.tips-box {
+  background: #eafaf1;
+  border-left: 6px solid #27ae60;
+  padding: 1.5rem 2rem;
+  border-radius: 15px;
+  max-width: 600px;
+  margin-bottom: 40px;
+  display: none; /* hidden by default */
+}
+
+.tips-box h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #27ae60;
+}
+
+.tips-box ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0;
+  text-align: left;
+}
+
+.tips-box ul li {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+  color: #003344;
+}
+
+/* ===== CRYSTAL BALL IMAGE ===== */
+.results-crystal-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 30px;
+  cursor: pointer;
+  filter: brightness(1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for crystal ball */
+.results-crystal-image:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+}
+
+/* ===== BUTTON ===== */
+.start-button {
+  background-color: #ae8cdd;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 30px;
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-decoration: none;
+  min-width: 200px;
+}
+
+.start-button:hover {
+  background-color: #9b7bc9;
+  transform: scale(1.05);
+}
+
+/* ===== ANIMATIONS ===== */
+.fade-in {
+  animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .story-box,
+  .results-box,
+  .tips-box {
+    padding: 1.5rem;
+  }
+
+  .story-content p {
+    font-size: 1rem;
+  }
+
+  .results-crystal-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .start-button {
+    font-size: 1.3rem;
+    padding: 12px 25px;
+  }
+}
